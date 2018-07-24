@@ -1,31 +1,33 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+
+
 
 class ListBooks extends Component {
+
+	static propTypes = {
+		books: PropTypes.array.isRequired
+	}
+
+	state = {
+		query: ''
+	}
+
+	updateQuery = (query) => {
+		this.setState({ query: query.trim()})
+	}
+
+	clearQuery = () => {
+		this.setState({ query: '' })
+	}
+
+
 
 	render() {
 		return (
 		    <div className="app">  
-	        
-		          <div className="search-books">
-		            <div className="search-books-bar">
-		              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-		              <div className="search-books-input-wrapper">
-		                {/*
-		                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-		                  You can find these search terms here:
-		                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-		                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-		                  you don't find a specific author or title. Every search is limited by search terms.
-		                */}
-		                <input type="text" placeholder="Search by title or author"/>
-
-		              </div>
-		            </div>
-		            <div className="search-books-results">
-		              <ol className="books-grid"></ol>
-		            </div>
-		          </div>
+	        	
 		        
 		          <div className="list-books">
 		            <div className="list-books-title">
@@ -45,11 +47,18 @@ class ListBooks extends Component {
 		                    				<div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})`}}></div>
 		                    					<div className="book-shelf-changer">
 		                    						<select>
-		                    							<option value="move" disabled>Move to...</option>
-		                                				<option value="currentlyReading">Currently Reading</option>
-						                                <option value="wantToRead">Want to Read</option>
-						                                <option value="read">Read</option>
-						                                <option value="none">None</option>
+		                    							<option 
+		                    								value="move" disabled>Move to...</option>
+		                                				<option 
+		                                					value="currentlyReading">Currently Reading</option>
+						                                <option 
+						                                	
+						                                	value="wantToRead">Want to Read</option>
+						                                {/*onClick={() => props.onMoveBookToWantToRead(book)}*/}
+						                                <option 
+						                                	value="read">Read</option>
+						                                <option 
+						                                	value="none">None</option>
 						                    		</select>		
 		                    					</div>
 		                    			</div>
@@ -129,7 +138,9 @@ class ListBooks extends Component {
 		              </div>
 		            </div>
 		            <div className="open-search">
-		              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+		              <Link
+		              to="/search"
+		               >Add a book</Link>
 		            </div>
 		          </div>
 		        )}
@@ -139,6 +150,8 @@ class ListBooks extends Component {
 
 	 
 	}
-
+ListBooks.propTypes = {
+	books: PropTypes.array.isRequired
+}
 
 export default ListBooks
