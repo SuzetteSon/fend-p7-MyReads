@@ -23,7 +23,7 @@ class SearchBooks extends Component {
 		const query = event.target.value
 		this.setState({ query: query})
 
-		// if query = true, search...
+		// if query = true, search method from API. If books available in search, setState to searchBooks array
 		if (query) {
 			BooksAPI.search(query).then((books) => {
 	      		books.length > 0 ? this.setState({searchBooks: books, searchError: false}) : this.setState({ searchBooks: [], searchError: true})
@@ -32,10 +32,10 @@ class SearchBooks extends Component {
 	}
 
 	render() {
-
+		//new array of searchBooks
 		let showingSearchBooks
 		if (this.state.query) {
-			const match = new RegExp(escapeRegExp(this.state.query), 'i')
+			const match = new RegExp(escapeRegExp(this.state.query), 'i') // regExp for search functionality
 			showingSearchBooks = this.state.searchBooks.filter((book) => match.test(book.title))
 			// not sure if the following is working...
 		} else if (this.state.query) {
@@ -44,7 +44,7 @@ class SearchBooks extends Component {
 		} else {
 			showingSearchBooks = this.state.searchBooks
 		}
-
+		//sort the new array by name.
 		showingSearchBooks.sort(sortBy('name'))
 		
 

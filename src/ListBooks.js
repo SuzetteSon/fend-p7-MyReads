@@ -17,7 +17,7 @@ class ListBooks extends Component {
 	//}
 
 	render() {
-
+		//create bookshelf object
 		const bookShelf = [
 			{ type: 'currentlyReading', name: 'Currently Reading'},
 			{ type: 'wantToRead', name: 'Want To Read'},
@@ -33,21 +33,28 @@ class ListBooks extends Component {
 		          </div>
 
 		            <div className="list-books-content">
-		        {/* map bookshelves to render */}
+		        {/* map bookshelves by type */}
 		        		{bookShelf.map((shelf, index) => {
-		        			const booksOnShelf = this.props.books.filter( book => book.shelf === shelf.type)
+
+		        			const booksOnShelf = this.props.books.filter( book =>  book.shelf === shelf.type)
+
 		        			return (
+
 		        				<div className="bookshelf" key={index}>
 		        					<h2 className="bookshelf-title">{shelf.name}</h2>
 		        						<div className="bookshelf-books">
+		        					{/* call BookShelf Component - booksOnShelf now the array with books */}
+
 		        							<BookShelf
 		        								books={ booksOnShelf }
 		        								moveBook={ this.props.moveBook }
 		        								/>
+		        						}
 							            </div>
 							    </div>  )  
 		                    })}
 		        	</div>
+		        {/* Link to search page */}
 		       		<div className="open-search">
 		              <Link
 		              to="/search"
