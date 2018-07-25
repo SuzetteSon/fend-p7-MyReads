@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Book from './Book'
 import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
@@ -8,8 +9,8 @@ import * as BooksAPI from './BooksAPI'
 class SearchBooks extends Component {
 
 	static propTypes = {
-		//books: PropTypes.array.isRequired,
-		books: PropTypes.array.isRequired
+		books: PropTypes.array.isRequired,
+		moveBook: PropTypes.func.isRequired
 	}
 
 	state = {
@@ -28,10 +29,6 @@ class SearchBooks extends Component {
 	      		books.length > 0 ? this.setState({searchBooks: books, searchError: false}) : this.setState({ searchBooks: [], searchError: true})
 	    	})
 		} else this.setState({ searchBooks: [], searchError: false})
-	}
-
-	clearQuery = () => {
-		this.setState({ query: '' })
 	}
 
 	render() {
@@ -75,32 +72,12 @@ class SearchBooks extends Component {
 		          			</div>
 		          		<ol className='books-grid'>
 		              		{showingSearchBooks.map((book) => (
-		              			<li key={book.id}>
-		              				<div className="book">
-		                    			<div className="book-top">
-		                    				<div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})`}}></div>
-		                    					<div className="book-shelf-changer">
-		                    						<select>
-		                    							<option 
-		                    								value="move" disabled>Move to...</option>
-		                                				<option 
-		                                					value="currentlyReading">Currently Reading</option>
-						                                <option 
-						                                	
-						                                	value="wantToRead">Want to Read</option>
-						                                {/*onClick={() => props.onMoveBookToWantToRead(book)}*/}
-						                                <option 
-						                                	value="read">Read</option>
-						                                <option 
-						                                	value="none">None</option>
-						                    		</select>		
-		                    					</div>
-
-		                    			</div>
-		                    		<div className="book-title">{book.title}</div>
-		                          	<div className="book-authors">{book.authors}</div>
-		                    		</div>
-		              			</li>
+		              			<Book
+		              				book={book}
+		              				books={this.props.books}
+		              				key={book.id}
+		              				moveBook={ this.props.moveBook }
+		              				/>
 		              			))}
 		                    
 		                    </ol>

@@ -20,17 +20,33 @@ class App extends Component {
     })
   }
 
+  // function to log book type
+
+  moveBook = (book, shelf) => {
+      BooksAPI.update(book, shelf).then(response => {
+        book.shelf = shelf
+
+        let movedBooks = this.state.books.filter(b => b.id !== book.id)
+
+        movedBooks.push(book)
+        this.setState({books: movedBooks})
+
+      })
+  }
+
   render() {
     return (
       <div>
         <Route exact path="/" render={() => (
           <ListBooks
+            moveBook={this.moveBook}
             books={this.state.books}
           />
         )}/>
         <Route path="/search" render={() => (
           <SearchBooks
           books={this.state.books}
+          moveBook={this.moveBook}
           />
           )}/>
       </div>
