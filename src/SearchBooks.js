@@ -40,6 +40,7 @@ class SearchBooks extends Component {
 		if (this.state.query) {
 			const match = new RegExp(escapeRegExp(this.state.query), 'i')
 			showingSearchBooks = this.state.searchBooks.filter((book) => match.test(book.title))
+			// not sure if the following is working...
 		} else if (this.state.query) {
 			const matchAuthors = new RegExp(escapeRegExp(this.state.query), 'i')
 			showingSearchBooks = this.state.searchBooks.filter((book) => matchAuthors.test(book.authors))
@@ -57,13 +58,6 @@ class SearchBooks extends Component {
 		        <div className="search-books-bar">
 		           	<Link to="/" className="close-search">Close</Link>
 		              <div className="search-books-input-wrapper">
-		                {/*
-		                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-		                  You can find these search terms here:
-		                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-		                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-		                  you don't find a specific author or title. Every search is limited by search terms.
-		                */}
 		                <input 
 		                	type="text" 
 		                	placeholder="Search by title or author"
@@ -76,7 +70,7 @@ class SearchBooks extends Component {
 		          <div className="search-books-results">
 		          	{showingSearchBooks.length > 0 && (
 		          		<div>
-		          		<div>
+		          			<div>
 		          			<h3>{showingSearchBooks.length} results returned </h3>
 		          			</div>
 		          		<ol className='books-grid'>
@@ -104,7 +98,6 @@ class SearchBooks extends Component {
 
 		                    			</div>
 		                    		<div className="book-title">{book.title}</div>
-
 		                          	<div className="book-authors">{book.authors}</div>
 		                    		</div>
 		              			</li>
@@ -122,12 +115,8 @@ class SearchBooks extends Component {
 		            	)}
 		            </div>
 		            </div>
-			
 			)
 	}
 }
-//SearchBooks.propTypes = {
-	//books: PropTypes.array.isRequired,
-//	searchBooks: PropTypes.array.isRequired
-//}
+
 export default SearchBooks
