@@ -14,16 +14,27 @@ class App extends Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    books: []
+    books: [],
+
   }
 
-// get books from API
+// get books from API - This collection represents the books currently in the bookshelves in your app.
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
+    //BooksAPI.getAll().then((books) => {
       this.setState({books})
     })
   }
+
+// function to get new array with searched books
+
+ // getSearchedBooks() {
+   // BooksAPI.search('Stephen King').then((searchBooks) => {
+     // this.setState({searchBooks})
+   // })
+ // }
+
 
 // function to move a book to "Want to Read" shelf
 
@@ -47,6 +58,8 @@ class App extends Component {
         <Route path="/search" render={() => (
           <SearchBooks
           books={this.state.books}
+          searchBooks={this.state.searchBooks}
+          onGetSearchedBooks={this.state.getSearchedBooks}
           
           />
           )}/>

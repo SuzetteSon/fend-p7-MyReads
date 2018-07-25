@@ -1,21 +1,33 @@
 import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
+import * as BooksAPI from './BooksAPI'
 
 class SearchBooks extends Component {
 
 	static propTypes = {
+		//books: PropTypes.array.isRequired,
 		books: PropTypes.array.isRequired
 	}
 
 	state = {
-		query: ''
+		query: '',
+		searchBooks: [],
+		searchError: false
 	}
 
-	updateQuery = (query) => {
+	updateQuery = (event) => {
+		const query = event.target.value
 		this.setState({ query: query})
+
+		// if query = true, search...
+		if (query) {
+			BooksAPI.search(query).then((books) => {
+	      		books.length > 0 ? this.setState({searchBooks: books, searchError: false}) : this.setState({ searchBooks: [], searchError: true})
+	    	})
+		} else this.setState({ searchBooks: [], searchError: false})
 	}
 
 	clearQuery = () => {
@@ -23,31 +35,29 @@ class SearchBooks extends Component {
 	}
 
 	render() {
-		let showingBooks
+
+		let showingSearchBooks
 		if (this.state.query) {
-			const matchTitle = new RegExp(escapeRegExp(this.state.query), 'i')
-			showingBooks = this.props.books.filter((book) => matchTitle.test(book.title))
-		} else if (this.state.query) {
-			const matchAuthors = new RegExp(escapeRegExp(this.state.query), 'i')
-			showingBooks = this.props.books.filter((book) => matchAuthors.test(book.authors))
+			const match = new RegExp(escapeRegExp(this.state.query), 'i')
+			showingSearchBooks = this.state.searchBooks.filter((book) => match.test(book.title))
 		} else {
-			showingBooks = this.props.books
+			showingSearchBooks = this.state.searchBooks
 		}
 
-		showingBooks.sort(sortBy('title'))
+		showingSearchBooks.sort(sortBy('name'))
+		
 
 		return (
 			<div>
 			<div className="search-books">
 			
 		        <div className="search-books-bar">
-		           	<a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+		           	<Link to="/" className="close-search">Close</Link>
 		              <div className="search-books-input-wrapper">
 		                {/*
 		                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
 		                  You can find these search terms here:
 		                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
 		                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
 		                  you don't find a specific author or title. Every search is limited by search terms.
 		                */}
@@ -55,18 +65,15 @@ class SearchBooks extends Component {
 		                	type="text" 
 		                	placeholder="Search by title or author"
 		                	value={this.state.query}
-		                	onChange={(event) => this.updateQuery(event.target.value)}/>
-
-
+		                	onChange={this.updateQuery}/>
 		              </div>
-		            </div>
-
-		            
+		            </div>  
 		          </div>
-		          <div className="search-books-results">
-		              	<ol className="books-grid">
 
-		              		{showingBooks.map((book) => (
+		          <div className="search-books-results">
+
+		          		<ol className='books-grid'>
+		              		{showingSearchBooks.map((book) => (
 		              			<li key={book.id}>
 		              				<div className="book">
 		                    			<div className="book-top">
@@ -103,7 +110,8 @@ class SearchBooks extends Component {
 			)
 	}
 }
-SearchBooks.propTypes = {
-	books: PropTypes.array.isRequired
-}
+//SearchBooks.propTypes = {
+	//books: PropTypes.array.isRequired,
+//	searchBooks: PropTypes.array.isRequired
+//}
 export default SearchBooks
