@@ -40,6 +40,9 @@ class SearchBooks extends Component {
 		if (this.state.query) {
 			const match = new RegExp(escapeRegExp(this.state.query), 'i')
 			showingSearchBooks = this.state.searchBooks.filter((book) => match.test(book.title))
+		} else if (this.state.query) {
+			const matchAuthors = new RegExp(escapeRegExp(this.state.query), 'i')
+			showingSearchBooks = this.state.searchBooks.filter((book) => matchAuthors.test(book.authors))
 		} else {
 			showingSearchBooks = this.state.searchBooks
 		}
@@ -71,7 +74,11 @@ class SearchBooks extends Component {
 		          </div>
 
 		          <div className="search-books-results">
-
+		          	{showingSearchBooks.length > 0 && (
+		          		<div>
+		          		<div>
+		          			<h3>{showingSearchBooks.length} results returned </h3>
+		          			</div>
 		          		<ol className='books-grid'>
 		              		{showingSearchBooks.map((book) => (
 		              			<li key={book.id}>
@@ -104,6 +111,15 @@ class SearchBooks extends Component {
 		              			))}
 		                    
 		                    </ol>
+		                    </div>
+		            )}
+		            { this.state.searchError && (
+		            	<div>
+		            		<div>
+		            		<h3>Oops! No results found.</h3>
+		            		</div>
+		            	</div>
+		            	)}
 		            </div>
 		            </div>
 			
