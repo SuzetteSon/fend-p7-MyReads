@@ -13,8 +13,8 @@ class Book extends Component {
 	render() {
 
 		return (
-
 			<div>
+		{/* list element for each book and provide key prop to list element */}
 				<li key={this.props.book.id}>
 					<div className="book">
 						<div className="book-top">
@@ -23,14 +23,11 @@ class Book extends Component {
 										book={this.props.book}
 										books={this.props.books}
 										moveBook={this.props.moveBook}
-
 										/>
-								
 						</div>
 					</div>
 						<div className="book-title">{this.props.book.title}</div>
 						<div className="book-authors">{this.props.book.authors}</div>
-						<div>{console.log(this.props.book)}</div>
 				</li>
 			</div>
 		)

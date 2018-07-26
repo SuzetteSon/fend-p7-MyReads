@@ -3,18 +3,12 @@ import PropTypes from 'prop-types'
 import BookShelf from './BookShelf'
 import { Link } from 'react-router-dom'
 
-
-
 class ListBooks extends Component {
 
 	static propTypes = {
 		books: PropTypes.array.isRequired,
 		moveBook: PropTypes.func.isRequired
 	}
-
-	//state = {
-	//	moveBook: false 
-	//}
 
 	render() {
 		//create bookshelf object
@@ -31,25 +25,20 @@ class ListBooks extends Component {
 		              <h1>MyReads</h1>
 		            </div>
 		          </div>
-
 		            <div className="list-books-content">
 		        {/* map bookshelves by type */}
 		        		{bookShelf.map((shelf, index) => {
-
+		        		{/* array for books on the shelf, rendered according to shelf property */}
 		        			const booksOnShelf = this.props.books.filter( book =>  book.shelf === shelf.type)
-
 		        			return (
-
 		        				<div className="bookshelf" key={index}>
 		        					<h2 className="bookshelf-title">{shelf.name}</h2>
 		        						<div className="bookshelf-books">
 		        					{/* call BookShelf Component - booksOnShelf now the array with books */}
-
 		        							<BookShelf
 		        								books={ booksOnShelf }
 		        								moveBook={ this.props.moveBook }
 		        								/>
-		        						}
 							            </div>
 							    </div>  )  
 		                    })}
@@ -58,12 +47,11 @@ class ListBooks extends Component {
 		       		<div className="open-search">
 		              <Link
 		              to="/search"
-		               >Add a book</Link>
+		               ></Link>
 		            </div>
 		    </div>
-		    )
+		)
 	}
-	}
-
+}
 
 export default ListBooks

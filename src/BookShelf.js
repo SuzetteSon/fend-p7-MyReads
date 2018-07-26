@@ -12,18 +12,22 @@ class BookShelf extends Component {
 	render () {
 
 		return (
-			<ol className="books-grid">
-		        {this.props.books.map((book) => (
-		        	<Book
-		        		book={book}
-		        		books={this.props.books}
-		        		key={book.id}
-		        		moveBook={this.props.moveBook}
-		        		/>
-		        	))}
-								                    
-			</ol>
-			)
+			<div>
+		{/* ordered list to render books to */}
+				<ol className="books-grid">
+			{/* map through books array and render books */}
+			        {this.props.books.map((book) => (
+			        	<Book
+			        		book={book}
+			        		books={this.props.books}
+			        		key={book.id}
+			        		moveBook={this.props.moveBook}
+			        		/>
+			        	))}			                    
+				</ol>
+			</div>
+		)
 	}
 }
+
 export default BookShelf

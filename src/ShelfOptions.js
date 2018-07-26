@@ -21,14 +21,11 @@ class ShelfOptions extends Component {
 			}
 		}
 
-		//
-
 		return (
 
 			<div className="book-shelf-changer">
+			{/* envoke moveBook function when an option is clicked */}
 				<select 
-
-
 					onChange={(event) => this.props.moveBook(this.props.book, event.target.value)}
 					defaultValue={currentOption}>
 					<option 
@@ -43,8 +40,7 @@ class ShelfOptions extends Component {
 						value="none">None</option>
 					</select>		
 			</div>
-
-			)
+		)
 	}
 }
 

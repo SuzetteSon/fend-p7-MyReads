@@ -5,32 +5,31 @@ import './App.css'
 import SearchBooks from './SearchBooks'
 import { Route } from 'react-router-dom'
 
-
 class App extends Component {
   state = {
     books: [],
   }
 
-// get books from API - This collection represents the books currently in the bookshelves in your app.
+  // get books from API - This collection represents the books currently in the bookshelves
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-    //BooksAPI.getAll().then((books) => {
+    //set the state of the books on the main page
       this.setState({books})
     })
   }
 
-  // function to log book type
+  // function to update the book's shelf.
 
   moveBook = (book, shelf) => {
       BooksAPI.update(book, shelf).then(response => {
         book.shelf = shelf
-
+        //new array
         let movedBooks = this.state.books.filter(b => b.id !== book.id)
-
+        //put the current book in the new array
         movedBooks.push(book)
+        //new state with new array
         this.setState({books: movedBooks})
-
       })
   }
 
